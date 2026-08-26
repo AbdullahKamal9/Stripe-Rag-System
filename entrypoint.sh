@@ -1,7 +1,12 @@
 #!/bin/bash
 set -e
 
-if [ ! -d "data/faiss_index" ]; then
+
+
+
+
+
+if [ ! -f "data/faiss_index/index.faiss" ]; then
     echo "No FAISS index found. Building index..."
     python src/indexer.py
 else
