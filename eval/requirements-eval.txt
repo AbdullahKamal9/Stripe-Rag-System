@@ -1,0 +1,21 @@
+# Evaluation-only dependencies (kept out of the production requirements.txt).
+# Install on top of requirements.txt:
+#   pip install -r requirements.txt -r eval/requirements-eval.txt
+#
+# Also used at runtime by src/retriever.py: sentence-transformers (cross-encoder reranker).
+#
+# Python 3.14 note: ragas needs scikit-network, which has no 3.14 wheel and fails to build.
+# Install ragas without it; eval/run_eval.py also shims the removed Vertex imports:
+#   pip install ragas==0.4.3 --no-deps
+mlflow==3.17.0
+detoxify==0.5.2
+sentence-transformers==6.1.0
+torch==2.14.1
+transformers==5.19.0
+datasets==5.1.0
+pandas==3.0.6
+appdirs==1.4.4
+diskcache==5.6.3
+instructor==1.17.0
+nest-asyncio==1.6.0
+ragas==0.4.3

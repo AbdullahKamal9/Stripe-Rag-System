@@ -6,11 +6,11 @@ set -e
 
 
 
-if [ ! -f "data/faiss_index/index.faiss" ]; then
-    echo "No FAISS index found. Building index..."
+if [ ! -f "data/faiss_index/index.faiss" ] || ! python src/indexer.py --check; then
+    echo "FAISS index missing or outdated. Building index..."
     python src/indexer.py
 else
-    echo "FAISS index found. Skipping build."
+    echo "FAISS index is current. Skipping build."
 fi
 
 echo "Starting API server..."

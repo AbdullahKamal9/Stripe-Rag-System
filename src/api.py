@@ -8,8 +8,10 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 import uvicorn
 from chain import get_chain
+from monitoring import run_monitored, summarize, enable_mlflow_tracing
 
 load_dotenv()
+enable_mlflow_tracing()
 
 app = FastAPI(
     title="Stripe Documentation RAG API",
@@ -165,7 +167,7 @@ def query_docs(request: QueryRequest):
     
     try:
         chain = get_cached_chain(use_multi_query=request.use_multi_query)
-        answer = chain.invoke(request.question)
+        answer, _ = run_monitored(chain, request.question)
         return QueryResponse(
             question=request.question,
             answer=answer,
@@ -173,6 +175,11 @@ def query_docs(request: QueryRequest):
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/monitoring")
+def monitoring_summary():
+    """Latency, cost, refusal and error rates over the most recent logged queries."""
+    return summarize()
 
 @app.post("/index")
 def reindex_docs():

@@ -20,3 +20,11 @@ env/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Evaluation outputs (MLflow store, artifacts, result CSVs)
+eval/mlflow.db
+eval/mlartifacts/
+eval/results/
+data/faiss_index_500_backup/
+data/monitoring/
+data/faiss_index/

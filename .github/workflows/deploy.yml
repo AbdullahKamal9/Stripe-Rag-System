@@ -8,7 +8,33 @@ env:
   IMAGE_NAME: ghcr.io/abdullahkamal9/stripe-rag
 
 jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install ragas mlflow detoxify datasets
+
+      - name: Build FAISS index
+        run: python src/indexer.py
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Evaluate and gate (subset of questions)
+        run: python eval/run_mlflow.py --limit 10 --gate --run-name ci-${{ github.sha }}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
   build-and-push:
+    needs: quality-gate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
