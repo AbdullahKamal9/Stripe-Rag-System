@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: CI
 
 on:
   push:
@@ -33,7 +33,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
-  build-and-push:
+  build-image:
     needs: quality-gate
     runs-on: ubuntu-latest
     steps:
@@ -52,19 +52,3 @@ jobs:
           context: .
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
-
-  deploy:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    steps:
-      - name: SSH and deploy
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            docker pull ${{ env.IMAGE_NAME }}:latest
-            docker stop stripe-rag || true
-            docker rm stripe-rag || true
-            docker run -d --name stripe-rag -p 8000:8000 --env-file /home/ubuntu/.env -v /home/ubuntu/faiss_data:/app/data/faiss_index ${{ env.IMAGE_NAME }}:latest
