@@ -195,6 +195,14 @@ Run comparison in the `stripe-rag-eval` experiment: `final-28` (red, top bar) ag
 **Cost, tokens and toxicity**
 ![Cost and toxicity](docs/mlflow-cost-toxicity.png)
 
+**Tracing:** all 28 evaluation questions are traced. The detail view for q15 shows the ensemble retrieval (BM25 and vector search), the prompt template and the LLM call with tokens and cost.
+![Trace list](docs/mlflow-trace-list.png)
+![Trace detail](docs/mlflow-trace-detail.png)
+
+**Prompt Registry:** `stripe-rag-answer` v1 (`baseline`, the loose original) and v2 (`production`, the strict grounded prompt).
+![Prompt v1 baseline](docs/mlflow-prompt-v1-baseline.png)
+![Prompt v2 production](docs/mlflow-prompt-v2-production.png)
+
 ## Security & Git
 
 - `.env`, `venv/`, and `.venv/` are ignored by `.gitignore` — never commit secrets.
