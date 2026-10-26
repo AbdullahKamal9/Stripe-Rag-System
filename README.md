@@ -178,6 +178,23 @@ python eval/prompt_registry.py                       # register prompt versions
 python -m mlflow server --backend-store-uri sqlite:///eval/mlflow.db --port 5000
 ```
 
+### MLflow screenshots
+
+Run comparison in the `stripe-rag-eval` experiment: `final-28` (red, top bar) against the earlier tuning runs.
+
+**Safety, faithfulness** (safe rate 0.96, faithfulness 0.97)
+![Safety and faithfulness](docs/mlflow-safety-faithfulness.png)
+
+**Answer relevancy, context precision and recall**
+![Answer relevancy and context precision](docs/mlflow-relevancy-precision.png)
+![Context recall and relevance](docs/mlflow-recall-context.png)
+
+**Latency**
+![Latency](docs/mlflow-latency.png)
+
+**Cost, tokens and toxicity**
+![Cost and toxicity](docs/mlflow-cost-toxicity.png)
+
 ## Security & Git
 
 - `.env`, `venv/`, and `.venv/` are ignored by `.gitignore` — never commit secrets.
