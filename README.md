@@ -203,6 +203,9 @@ Run comparison in the `stripe-rag-eval` experiment: `final-28` (red, top bar) ag
 ![Prompt v1 baseline](docs/mlflow-prompt-v1-baseline.png)
 ![Prompt v2 production](docs/mlflow-prompt-v2-production.png)
 
+**CI:** GitHub Actions runs the quality gate on a question subset, then builds and pushes the Docker image (run #2, both jobs green).
+![CI run](docs/ci-passed.png)
+
 ## Security & Git
 
 - `.env`, `venv/`, and `.venv/` are ignored by `.gitignore` — never commit secrets.
